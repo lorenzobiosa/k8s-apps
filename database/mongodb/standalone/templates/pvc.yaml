@@ -1,0 +1,25 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mongodb-standalone.fullname" . }}-data
+spec:
+  accessModes:
+    - {{ .Values.pvc.dbaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.dbsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.dbvolumeMode}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mongodb-standalone.fullname" . }}-configdb
+spec:
+  accessModes:
+    - {{ .Values.pvc.configdbaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.configdbsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.configdbvolumeMode}}

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mssql-standalone.fullname" . }}
+  labels:
+    {{- include "mssql-standalone.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas}}
+  selector:
+    matchLabels:
+      {{- include "mssql-standalone.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "mssql-standalone.selectorLabels" . | nindent 8 }}
+    spec:
+      hostname: {{ .Values.hostname}}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          command:
+            - /bin/bash
+            - -c
+            - cp /var/opt/config/mssql.conf /var/opt/mssql/mssql.conf && /opt/mssql/bin/sqlservr
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.containers.ports.containerPort}}
+          env:
+            - name: MSSQL_PID
+              value: "{{ .Values.MSSQL_PID.value}}"
+            - name: ACCEPT_EULA
+              value: "{{ .Values.ACCEPT_EULA.value | upper}}"
+            - name: MSSQL_AGENT_ENABLED
+              value: "{{ .Values.MSSQL_AGENT_ENABLED.value}}"
+            - name: SA_PASSWORD
+              valueFrom:
+               secretKeyRef:
+                name: {{ include "mssql-standalone.fullname" . }}-secret
+                key: {{  template "mssql.sapassword" . }}
+          volumeMounts:
+            - name: mssqldb
+              mountPath: /var/opt/mssql
+            - name: mssqluserdb
+              mountPath: /var/opt/mssql/userdata
+            - name: mssqllog
+              mountPath: /var/opt/mssql/userlog
+            - name: mssqltempdb
+              mountPath: /var/opt/mssql/tempdb
+            - name: mssql-config-volume
+              mountPath: /var/opt/config
+      volumes:
+       - name: mssqldb
+         persistentVolumeClaim:
+          claimName: {{ include "mssql-standalone.fullname" . }}-data
+       - name: mssqluserdb
+         persistentVolumeClaim:
+          claimName: {{ include "mssql-standalone.fullname" . }}-userdb
+       - name: mssqllog
+         persistentVolumeClaim:
+          claimName: {{ include "mssql-standalone.fullname" . }}-log
+       - name: mssqltempdb
+         persistentVolumeClaim:
+          claimName: {{ include "mssql-standalone.fullname" . }}-tempdb
+       - name: mssql-config-volume
+         configMap:
+          name: {{ include "mssql-standalone.fullname" . }}-config

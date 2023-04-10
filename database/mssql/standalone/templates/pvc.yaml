@@ -1,0 +1,51 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mssql-standalone.fullname" . }}-data
+spec:
+  accessModes:
+    - {{ .Values.pvc.mssqldbaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.mssqldbsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.mssqldbvolumeMode}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mssql-standalone.fullname" . }}-userdb
+spec:
+  accessModes:
+    - {{ .Values.pvc.userdbaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.userdbsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.userdbvolumeMode}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mssql-standalone.fullname" . }}-log
+spec:
+  accessModes:
+    - {{ .Values.pvc.userlogaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.userlogsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.userlogvolumeMode}}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "mssql-standalone.fullname" . }}-tempdb
+spec:
+  accessModes:
+    - {{ .Values.pvc.tempdbaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.tempdbsize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.tempdbvolumeMode}}
