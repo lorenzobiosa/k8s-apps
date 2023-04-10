@@ -1,1 +1,1 @@
-# k8s-apps
+# Kubernetes Applications Collection
