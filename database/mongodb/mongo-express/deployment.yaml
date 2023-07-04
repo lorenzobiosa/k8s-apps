@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: mongo-express
+  name: mongo-express
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-express
+  template:
+    metadata:
+      labels:
+        app: mongo-express
+    spec:
+      containers:
+      - image: docker.io/mongo-express:latest
+        name: mongo-express
+        env:
+        - name: ME_CONFIG_BASICAUTH_USERNAME
+          value: 'admin'
+        - name: ME_CONFIG_BASICAUTH_PASSWORD
+          value: 'Password01!'
+        - name: ME_CONFIG_MONGODB_URL
+          value: 'mongodb://admin:Password01%21@cluster-primario-0.cluster-primario-svc.mongodb-ha.svc.cluster.local:27017,cluster-primario-1.cluster-primario-svc.mongodb-ha.svc.cluster.local:27017,cluster-primario-2.cluster-primario-svc.mongodb-ha.svc.cluster.local:27017/admin?replicaSet=cluster-primario&ssl=false'
+        resources:
+          requests:
+            cpu: '500m'
+            memory: '512Mi'
+          limits:
+            cpu: '1'
+            memory: '1Gi'
+        ports:
+        - containerPort: 8081

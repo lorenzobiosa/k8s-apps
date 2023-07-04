@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "oracle-standalone.fullname" . }}
+  labels:
+    {{- include "oracle-standalone.labels" . | nindent 4 }}
+spec:
+  ports:
+  - name: listener
+    port: {{ .Values.service.portListener }}
+    targetPort: {{ .Values.service.portListener }}
+    protocol: TCP
+  - name: oem-express
+    port: {{ .Values.service.portExpress }}
+    targetPort: {{ .Values.service.portExpress }}
+    protocol: TCP
+  selector:
+    {{- include "oracle-standalone.selectorLabels" . | nindent 4 }}

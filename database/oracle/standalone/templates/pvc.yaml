@@ -1,0 +1,12 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "oracle-standalone.fullname" . }}-oradata
+spec:
+  accessModes:
+    - {{ .Values.pvc.oradataaccessMode | quote}}
+  resources:
+    requests:
+      storage: {{ .Values.pvc.oradatasize}}
+  storageClassName: {{ .Values.pvc.StorageClass}}
+  volumeMode: {{ .Values.pvc.oradatavolumeMode}}
