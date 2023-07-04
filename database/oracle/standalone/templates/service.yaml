@@ -10,9 +10,5 @@ spec:
     port: {{ .Values.service.portListener }}
     targetPort: {{ .Values.service.portListener }}
     protocol: TCP
-  - name: oem-express
-    port: {{ .Values.service.portExpress }}
-    targetPort: {{ .Values.service.portExpress }}
-    protocol: TCP
   selector:
     {{- include "oracle-standalone.selectorLabels" . | nindent 4 }}

@@ -30,8 +30,6 @@ spec:
           ports:
             - name: listener
               containerPort: {{ .Values.service.portListener}}
-            - name: oem-express
-              containerPort: {{ .Values.service.portExpress}}
           env:
             - name: ENABLE_ARCHIVELOG
               value: "true"

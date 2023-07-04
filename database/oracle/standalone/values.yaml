@@ -19,7 +19,6 @@ podSecurityContext:
 service:
   type: ClusterIP
   portListener: 1521
-  portExpress: 5500
 
 pvc:
   StorageClass: "csi-vmware"
