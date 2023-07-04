@@ -21,6 +21,8 @@ spec:
       hostname: {{ .Values.hostname}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      serviceAccount: {{ include "mongodb-standalone.fullname" . }}
+      serviceAccountName: {{ include "mongodb-standalone.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"

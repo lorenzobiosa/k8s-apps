@@ -5,10 +5,10 @@
 replicas: 1
 
 image:
-  repository: docker.io/mongodb/mongodb-community-server
+  repository: docker.io/mongodb/mongodb-enterprise-server
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "5.0.18-ubi8"
   
 hostname: mongodb-standalone
 mongo_initdb_root_username: admin
