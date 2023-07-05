@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "mongodb-standalone.fullname" . }}-data
+  name: {{ .Values.hostname }}-data
 spec:
   accessModes:
     - {{ .Values.pvc.dbaccessMode | quote}}
@@ -14,7 +14,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "mongodb-standalone.fullname" . }}-configdb
+  name: {{ .Values.hostname }}-configdb
 spec:
   accessModes:
     - {{ .Values.pvc.configdbaccessMode | quote}}

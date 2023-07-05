@@ -10,7 +10,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "5.0.18-ubi8"
   
-hostname: mongodb-standalone
+hostname: oracle
 mongo_initdb_root_username: admin
 mongo_initdb_root_password: "Toughpass1!"
 containers:

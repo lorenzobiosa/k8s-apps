@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mongodb-standalone.fullname" . }}
+  name: {{ .Values.hostname }}
   labels:
     {{- include "mongodb-standalone.labels" . | nindent 4 }}
 spec:
@@ -21,8 +21,8 @@ spec:
       hostname: {{ .Values.hostname}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      serviceAccount: {{ include "mongodb-standalone.fullname" . }}
-      serviceAccountName: {{ include "mongodb-standalone.fullname" . }}
+      serviceAccount: {{ .Values.hostname }}
+      serviceAccountName: {{ .Values.hostname }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -33,12 +33,12 @@ spec:
             - name: MONGODB_INITDB_ROOT_USERNAME
               valueFrom:
                secretKeyRef:
-                name: {{ include "mongodb-standalone.fullname" . }}-secret
+                name: {{ .Values.hostname }}-secret
                 key: {{  template "mongodb.rootusername" . }}
             - name: MONGODB_INITDB_ROOT_PASSWORD
               valueFrom:
                secretKeyRef:
-                name: {{ include "mongodb-standalone.fullname" . }}-secret
+                name: {{ .Values.hostname }}-secret
                 key: {{  template "mongodb.rootpassword" . }}
           volumeMounts:
             - mountPath: /data/configdb
@@ -48,7 +48,7 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-           claimName: {{ include "mongodb-standalone.fullname" . }}-data
+           claimName: {{ .Values.hostname }}-data
         - name: configdb
           persistentVolumeClaim:
-           claimName: {{ include "mongodb-standalone.fullname" . }}-configdb
+           claimName: {{ .Values.hostname }}-configdb
