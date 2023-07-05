@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: confluentinc-cp-kafka-connect
+  name: connect
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: connect
+    port: 8083
+  selector:
+    app: confluentinc-cp-kafka-connect
