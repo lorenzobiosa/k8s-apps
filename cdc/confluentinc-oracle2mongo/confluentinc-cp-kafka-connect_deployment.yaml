@@ -6,7 +6,6 @@ metadata:
   labels:
     app: confluentinc-cp-kafka-connect
   name: confluentinc-cp-kafka-connect
-  namespace: misura-cdc
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

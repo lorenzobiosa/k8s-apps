@@ -10,9 +10,9 @@ spec:
   - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-  - name: port1
+  - name: broker1
     port: 29092
-  - name: port2
+  - name: broker2
     port: 9092
   selector:
     app: confluentinc-cp-enterprise-kafka

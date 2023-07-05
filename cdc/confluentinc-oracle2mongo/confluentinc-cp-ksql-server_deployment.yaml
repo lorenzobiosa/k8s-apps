@@ -6,7 +6,6 @@ metadata:
   labels:
     app: confluentinc-cp-ksql-server
   name: confluentinc-cp-ksql-server
-  namespace: misura-cdc
 spec:
   progressDeadlineSeconds: 600
   replicas: 1

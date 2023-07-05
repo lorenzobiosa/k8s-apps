@@ -10,7 +10,7 @@ spec:
   - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-  - name: listener
+  - name: zookeeper
     port: 2181
   selector:
     app: confluentinc-cp-zookeeper

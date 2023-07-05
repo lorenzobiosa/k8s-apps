@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "2"
+    deployment.kubernetes.io/revision: "4"
   labels:
     app: confluentinc-cp-schema-registry
   name: confluentinc-cp-schema-registry
-  namespace: misura-cdc
+  namespace: 1884-misura-cdc-confluent
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -25,18 +25,17 @@ spec:
       labels:
         app: confluentinc-cp-schema-registry
     spec:
-      hostname: schema-registry
       containers:
       - env:
-        - name: SCHEMA_REGISTRY_HOST_NAME
-          value: schema-registry
         - name: SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL
           value: zookeeper:2181
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          value: schema-registry
         - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-          value: "PLAINTEXT://broker:29092"
+          value: PLAINTEXT://broker:29092
         image: confluentinc/cp-schema-registry:latest
         imagePullPolicy: Always
-        name: schema-registry
+        name: cp-schema-registry
         ports:
         - containerPort: 8081
           protocol: TCP
