@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "oracle-standalone.fullname" . }}
+  name: {{ .Values.hostname }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: system:openshift:scc:anyuid
 subjects:
 - kind: ServiceAccount
-  name: {{ include "oracle-standalone.fullname" . }}
+  name: {{ .Values.hostname }}
   namespace: {{ .Release.Namespace }}

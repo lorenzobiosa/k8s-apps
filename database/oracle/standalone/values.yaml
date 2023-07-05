@@ -5,12 +5,12 @@
 replicas: 1
 
 image:
-  repository: store/oracle/database-enterprise
+  repository: container-registry.oracle.com/database/enterprise
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "12.2.0.1-slim"
   
-hostname: oracle-standalone
+hostname: oracle
 oracle_password: "Toughpass1!"
 
 podSecurityContext:

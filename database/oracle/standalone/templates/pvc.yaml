@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "oracle-standalone.fullname" . }}-oradata
+  name: {{ .Values.hostname }}-oradata
 spec:
   accessModes:
     - {{ .Values.pvc.oradataaccessMode | quote}}

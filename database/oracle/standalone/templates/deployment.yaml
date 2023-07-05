@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "oracle-standalone.fullname" . }}
+  name: {{ .Values.hostname }}
   labels:
     {{- include "oracle-standalone.labels" . | nindent 4 }}
 spec:
@@ -21,8 +21,8 @@ spec:
       hostname: {{ .Values.hostname}}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      serviceAccount: {{ include "oracle-standalone.fullname" . }}
-      serviceAccountName: {{ include "oracle-standalone.fullname" . }}
+      serviceAccount: {{ .Values.hostname}}
+      serviceAccountName: {{ .Values.hostname}}
       containers:
         - name: {{ .Values.hostname }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -36,14 +36,14 @@ spec:
             - name: ORACLE_PWD
               valueFrom:
                secretKeyRef:
-                name: {{ include "oracle-standalone.fullname" . }}-secret
+                name: {{ .Values.hostname}}-secret
                 key: {{  template "oracle.rootpassword" . }}
           volumeMounts:
             - mountPath: /opt/oracle/oradata
               name: oradata
       imagePullSecrets:
-        - name: {{ include "oracle-standalone.fullname" . }}-pull-secret
+        - name: {{ .Values.hostname}}-pull-secret
       volumes:
         - name: oradata
           persistentVolumeClaim:
-            claimName: {{ include "oracle-standalone.fullname" . }}-oradata
+            claimName: {{ .Values.hostname}}-oradata
