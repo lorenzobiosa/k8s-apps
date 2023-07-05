@@ -24,7 +24,7 @@ spec:
       serviceAccount: {{ include "oracle-standalone.fullname" . }}
       serviceAccountName: {{ include "oracle-standalone.fullname" . }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.hostname }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
